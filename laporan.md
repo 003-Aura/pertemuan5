@@ -21,20 +21,26 @@ Perangkat dan teknologi yang digunakan:
 
 Struktur folder pengerjaan tugas individu:
 
-```text
-pertemuan-05/
+pertemuan5/
 ├── laporan.md
 └── bukti/
-    ├── 01-struktur-backend.png
-    ├── 02-database-aktif.png
-    ├── 03-prisma-generate.png
-    ├── 04-backend-aktif.png
-    ├── 05-pengujian-crud-berhasil.png
-    ├── 06-pengujian-validasi-gagal.png
-    ├── 07-pengujian-json-rusak.png
-    ├── 08-pengujian-route-404.png
-    └── 09-pengujian-delete-database.png
-```
+    ├── 01-struktur-backend.PNG
+    ├── 02-database-aktif.PNG
+    ├── 03-prisma-generate.PNG
+    ├── 04-backend-aktif.PNG
+    ├── 05-pengujian-crud-berhasil.PNG
+    ├── 06-pengujian-validasi-gagal.PNG
+    ├── 07-pengujian-json-rusak.PNG
+    ├── 08-pengujian-route-404.PNG
+    ├── 09-pengujian-delete-database.PNG
+    ├── 10-pengujian-kapasitas-501.PNG
+    ├── 11-pengujian-kapasitas-pecahan.PNG
+    ├── 12-pengujian-kapasitas-string.PNG
+    ├── 13-relasi-database-cascade.PNG
+    ├── 14-data-jadwal-sebelum-delete.PNG
+    ├── 15-data-peserta-sebelum-delete.PNG
+    ├── 16-hasil-cascade-peserta-terhapus.PNG
+    └── 17-hasil-delete-jadwal.PNG
 
 ### D. Implementasi Praktikum
 
@@ -167,11 +173,47 @@ Keempat pengujian menghasilkan status 400 Bad Request. Hal ini menunjukkan bahwa
 
 ![Pengujian kapasitas string](bukti/12-pengujian-kapasitas-string.PNG)
 
+### 6. Pemeriksaan Database dan Pengujian Cascade setelah DELETE
+
+Pengujian ini dilakukan untuk memastikan bahwa penghapusan data jadwal juga menghapus data peserta yang memiliki relasi dengan jadwal tersebut.
+
+**a. Pemeriksaan Relasi Database**
+
+Berdasarkan pemeriksaan struktur tabel, relasi antara tabel `peserta` dan `jadwal` menggunakan aturan `ON DELETE CASCADE`.
+
+![Relasi Database Cascade](bukti/13-relasi-database-cascade.PNG)
+
+**b. Data Sebelum Penghapusan**
+
+Sebelum penghapusan, dibuat data jadwal sementara dengan ID `1008` dan satu data peserta yang terhubung dengan jadwal tersebut.
+
+![Data Jadwal Sebelum Delete](bukti/14-data-jadwal-sebelum-delete.PNG)
+
+![Data Peserta Sebelum Delete](bukti/15-data-peserta-sebelum-delete.PNG)
+
+**c. Proses Penghapusan Data**
+
+Penghapusan dilakukan melalui endpoint `DELETE /api/v1/jadwal/1008` menggunakan token admin. Server memberikan respons HTTP `204 No Content`, yang menunjukkan proses penghapusan berhasil.
+
+**d. Pemeriksaan Setelah Penghapusan**
+
+Setelah penghapusan, data peserta dengan `jadwalId` `1008` tidak ditemukan lagi di database.
+
+![Peserta Setelah Delete](bukti/16-hasil-cascade-peserta-terhapus.PNG)
+
+Data jadwal dengan ID `1008` juga sudah tidak ditemukan.
+
+![Jadwal Setelah Delete](bukti/17-hasil-delete-jadwal.PNG)
+
+**Kesimpulan:**
+
+Penghapusan jadwal dengan ID `1008` berhasil dilakukan. Data peserta yang memiliki relasi dengan jadwal tersebut ikut terhapus secara otomatis karena penerapan aturan `ON DELETE CASCADE`.
+
 ### G. Pertanyaan Penjelasan Kode
 
 **1. Dari mana input fitur ini berasal, dan di file mana input tersebut diperiksa?**
 
-Input fitur berasal dari request yang dikirim oleh client melalui body, parameter URL, dan query URL. Input tersebut diperiksa pada file `backend/src/app.js` menggunakan skema validasi Zod, seperti `jadwalSchema`, `idSchema`, dan `querySchema`.
+Input fitur berasal dari request yang dikirim oleh client melalui body, parameter URL, dan query URL. Input tersebut diperiksa pada file `praktikum-backend/src/app.js` menggunakan skema validasi Zod, seperti `jadwalSchema`, `idSchema`, dan `querySchema`.
 
 **2. Fungsi mana yang mengubah data atau state, dan kapan respons ditampilkan kepada pengguna?**
 
