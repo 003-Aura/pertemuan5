@@ -146,6 +146,27 @@ Pengujian dilakukan dengan mengakses kembali data jadwal menggunakan ID `1007` s
 
 ![09-pengujian-delete-database.png](bukti/09-pengujian-delete-database.PNG)
 
+### Pengujian Validasi Kapasitas
+
+Pengujian dilakukan dengan mengirimkan empat jenis nilai kapasitas untuk memastikan aturan validasi berjalan dengan benar.
+
+| No. | Input Kapasitas | Status HTTP | Keterangan |
+|---|---|---|---|
+| 1 | 0 | 400 | Kapasitas kurang dari batas minimum 1. |
+| 2 | 501 | 400 | Kapasitas melebihi batas maksimum 500. |
+| 3 | 1.5 | 400 | Kapasitas harus berupa bilangan bulat. |
+| 4 | "abc" | 400 | Kapasitas harus berupa angka. |
+
+Keempat pengujian menghasilkan status 400 Bad Request. Hal ini menunjukkan bahwa API menolak data kapasitas yang tidak memenuhi aturan validasi.
+
+**Bukti Pengujian:**
+
+![Pengujian kapasitas 501](bukti/10-pengujian-kapasitas-501.PNG)
+
+![Pengujian kapasitas pecahan](bukti/11-pengujian-kapasitas-pecahan.PNG)
+
+![Pengujian kapasitas string](bukti/12-pengujian-kapasitas-string.PNG)
+
 ### G. Pertanyaan Penjelasan Kode
 
 **1. Dari mana input fitur ini berasal, dan di file mana input tersebut diperiksa?**
